@@ -1,0 +1,11 @@
+# Node modules
+node_modules/
+
+# Playwright test outputs
+playwright-report/
+test-results/
+blob-report/
+
+# OS files
+.DS_Store
+Thumbs.db
