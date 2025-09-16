@@ -1,33 +1,29 @@
-const {test,expect}=require("@playwright/test")
+const { test, expect } = require('@playwright/test');
+const { login } = require('../pages/login');
+const { home } = require('../pages/home');
+const { cart } = require('../pages/cart');
 
-const { login } =require('../pages/login')
-const { home } =require('../pages/home')
-const {cart}= require('../pages/cart')
+test('Swag Labs E2E Flow', async ({ page }) => {
 
-test('swag labs',async({page})=>{
-   /* await page.goto("/");
-    await page.locator("#user-name").fill('standard_user');
-    await page.locator("#password").fill('secret_sauce');
-    await page.locator("#login-button").click();
+  // Step 1: Login
+  const loginPom = new login(page);
+  await loginPom.gotoPage();
+  await loginPom.loginPage('standard_user', 'secret_sauce');
 
-    await page.locator(".product_sort_container").selectOption({value:'lohi'})*/
+  // Assert login success by checking a homepage element
+  await expect(page.locator('.product_sort_container')).toBeVisible();
 
-    const loginPom=new login(page)
+  // Step 2: Add product to cart
+  const homePom = new home(page);
+  await homePom.homePage();
 
-    await loginPom.gotoPage()
-    await loginPom.loginPage('standard_user','secret_sauce')
+  // Assert product added
+  await expect(page.locator('.shopping_cart_badge')).toHaveText('1');
 
-    await page.waitForTimeout(2000)
+  // Step 3: Checkout
+  const cartPom = new cart(page);
+  await cartPom.cartPage('Sam', 'Bence', '12345');
 
-    const homePom=new home(page)
-    await homePom.homePage()
-
-    await page.waitForTimeout(3000)
-
-    const cartPom=new cart(page)
-    await cartPom.cartPage('sam','bence','12345')
-
-
-    await page.waitForTimeout(5000);
-
-})
+  // Assert order completed
+  await expect(page.locator('.complete-header')).toHaveText('Thank you for your order!');
+});
