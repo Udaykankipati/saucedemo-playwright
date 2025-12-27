@@ -29,4 +29,6 @@ test('Swag Labs E2E Flow', async ({ page }) => {
   //checking after long time 😉
   console.log('adding commits for rebase')
   console.log('added another commit')
+
+  console.log('hello bro')
 });
