@@ -27,4 +27,5 @@ test('Swag Labs E2E Flow', async ({ page }) => {
   // Assert order completed
   await expect(page.locator('.complete-header')).toHaveText('Thank you for your order!');
   //checking after long time 😉
+  console.log('adding commits for rebase')
 });
